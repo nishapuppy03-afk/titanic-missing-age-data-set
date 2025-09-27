@@ -1,0 +1,137 @@
+{
+  "metadata": {
+    "kernelspec": {
+      "name": "python",
+      "display_name": "Python (Pyodide)",
+      "language": "python"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "python",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.8"
+    }
+  },
+  "nbformat_minor": 5,
+  "nbformat": 4,
+  "cells": [
+    {
+      "id": "2c133f8f-f435-4898-88fb-8c0036831d45",
+      "cell_type": "code",
+      "source": "import pandas as pd\n\ndf = pd.read_csv(\"test[1].csv\")\nprint(df.isnull())\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "     PassengerId  Pclass   Name    Sex    Age  SibSp  Parch  Ticket   Fare  \\\n0          False   False  False  False  False  False  False   False  False   \n1          False   False  False  False  False  False  False   False  False   \n2          False   False  False  False  False  False  False   False  False   \n3          False   False  False  False  False  False  False   False  False   \n4          False   False  False  False  False  False  False   False  False   \n..           ...     ...    ...    ...    ...    ...    ...     ...    ...   \n413        False   False  False  False   True  False  False   False  False   \n414        False   False  False  False  False  False  False   False  False   \n415        False   False  False  False  False  False  False   False  False   \n416        False   False  False  False   True  False  False   False  False   \n417        False   False  False  False   True  False  False   False  False   \n\n     Cabin  Embarked  \n0     True     False  \n1     True     False  \n2     True     False  \n3     True     False  \n4     True     False  \n..     ...       ...  \n413   True     False  \n414  False     False  \n415   True     False  \n416   True     False  \n417   True     False  \n\n[418 rows x 11 columns]\n"
+        }
+      ],
+      "execution_count": 1
+    },
+    {
+      "id": "e4ac117f-19cb-476a-8b0f-e6be4679f6a2",
+      "cell_type": "code",
+      "source": "\nprint(df.isnull().sum())\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "PassengerId      0\nPclass           0\nName             0\nSex              0\nAge             86\nSibSp            0\nParch            0\nTicket           0\nFare             1\nCabin          327\nEmbarked         0\ndtype: int64\n"
+        }
+      ],
+      "execution_count": 2
+    },
+    {
+      "id": "4d1e9678-152b-4dcf-b39c-f3c32ddf9bd3",
+      "cell_type": "code",
+      "source": "\ndf_dropna = df.dropna()\nprint(df_dropna.head())\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "    PassengerId  Pclass                                               Name  \\\n12          904       1      Snyder, Mrs. John Pillsbury (Nelle Stevenson)   \n14          906       1  Chaffee, Mrs. Herbert Fuller (Carrie Constance...   \n24          916       1    Ryerson, Mrs. Arthur Larned (Emily Maria Borie)   \n26          918       1                       Ostby, Miss. Helene Ragnhild   \n28          920       1                            Brady, Mr. John Bertram   \n\n       Sex   Age  SibSp  Parch       Ticket      Fare            Cabin  \\\n12  female  23.0      1      0        21228   82.2667              B45   \n14  female  47.0      1      0  W.E.P. 5734   61.1750              E31   \n24  female  48.0      1      3     PC 17608  262.3750  B57 B59 B63 B66   \n26  female  22.0      0      1       113509   61.9792              B36   \n28    male  41.0      0      0       113054   30.5000              A21   \n\n   Embarked  \n12        S  \n14        S  \n24        C  \n26        C  \n28        S  \n"
+        }
+      ],
+      "execution_count": 3
+    },
+    {
+      "id": "ea396ea8-8a22-428f-b16e-b931b25d9f2e",
+      "cell_type": "code",
+      "source": "\ndf_fillna = df.fillna(0)\nprint(df_fillna.head())\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "   PassengerId  Pclass                                          Name     Sex  \\\n0          892       3                              Kelly, Mr. James    male   \n1          893       3              Wilkes, Mrs. James (Ellen Needs)  female   \n2          894       2                     Myles, Mr. Thomas Francis    male   \n3          895       3                              Wirz, Mr. Albert    male   \n4          896       3  Hirvonen, Mrs. Alexander (Helga E Lindqvist)  female   \n\n    Age  SibSp  Parch   Ticket     Fare Cabin Embarked  \n0  34.5      0      0   330911   7.8292     0        Q  \n1  47.0      1      0   363272   7.0000     0        S  \n2  62.0      0      0   240276   9.6875     0        Q  \n3  27.0      0      0   315154   8.6625     0        S  \n4  22.0      1      1  3101298  12.2875     0        S  \n"
+        }
+      ],
+      "execution_count": 4
+    },
+    {
+      "id": "1a080d96-f57c-4f72-ba8a-3ad8aa2b269f",
+      "cell_type": "code",
+      "source": "\ndf['Age_mean_filled'] = df['Age'].fillna(df['Age'].mean())\nprint(df[['Age', 'Age_mean_filled']].head())\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "    Age  Age_mean_filled\n0  34.5             34.5\n1  47.0             47.0\n2  62.0             62.0\n3  27.0             27.0\n4  22.0             22.0\n"
+        }
+      ],
+      "execution_count": 5
+    },
+    {
+      "id": "ca450670-8186-4b09-a1d6-7dc979981b47",
+      "cell_type": "code",
+      "source": "\ndf['Age_median_filled'] = df['Age'].fillna(df['Age'].median())\nprint(df[['Age', 'Age_median_filled']].head())\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "    Age  Age_median_filled\n0  34.5               34.5\n1  47.0               47.0\n2  62.0               62.0\n3  27.0               27.0\n4  22.0               22.0\n"
+        }
+      ],
+      "execution_count": 6
+    },
+    {
+      "id": "59a6ccdc-c1cf-45d4-8212-60a0be5baafd",
+      "cell_type": "code",
+      "source": "\ndf['Sex_encoded'] = df['Sex'].map({'male': 0, 'female': 1})\nprint(df[['Sex', 'Sex_encoded']].head())\n",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": "      Sex  Sex_encoded\n0    male            0\n1  female            1\n2    male            0\n3    male            0\n4  female            1\n"
+        }
+      ],
+      "execution_count": 7
+    }
+  ]
+}
